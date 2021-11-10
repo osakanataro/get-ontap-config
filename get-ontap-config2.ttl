@@ -1,0 +1,189 @@
+
+sendln 'rows 0'
+wait '::> '
+sendln 'date'
+wait '::> '
+
+
+;1 基本設定系
+;コントローラ ハードウェア情報
+sendln 'system node show -fields model,serialnumber,systemid'
+wait '::> '
+sendln 'system controller show '
+wait '::> '
+sendln 'system service-processor show -fields type,fw-version,dev-rev'
+wait '::> '
+sendln 'system controller config show -device  "Controller Module"'
+wait '::> '
+
+;サービスプロセッサ情報
+sendln 'system service-processor network show'
+wait '::> '
+sendln 'system service-processor show -ins'
+wait '::> '
+
+;ディスクハードウェア情報
+sendln 'storage disk show -fields model,firmware-revision,serial-number'
+wait '::> '
+
+;ディスクパーテーション情報
+sendln 'storage disk show -fields disk,container-type,type,usable-size '
+wait '::> '
+
+;アグリゲート情報
+sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype '
+wait '::> '
+
+;2 基本設定系
+;ログイン情報
+sendln 'security login show'
+wait '::> '
+
+
+;通知設定
+sendln 'autosupport show -ins'
+wait '::> '
+
+;その他
+sendln 'system date show -ins'
+wait '::> '
+sendln 'cluster time-service ntp server show'
+wait '::> '
+sendln 'system timeout show'
+wait '::> '
+
+
+;3 クラスタ設定
+;クラスタ設定
+sendln 'cluster show'
+wait '::> '
+
+;ライセンス情報
+sendln 'system license show'
+wait '::> '
+
+
+;ネットワーク設定
+sendln 'network interface show -fields lif,vserver,home-node,home-port,failover-group,address,netmask-length,data-protocol,role'
+wait '::> '
+sendln 'network port show -fields node,port,broadcast-domain,ipspace,type'
+wait '::> '
+sendln 'network port ifgrp show -ins'
+wait '::> '
+sendln 'network port broadcast-domain show'
+wait '::> '
+sendln 'network ipspace show'
+wait '::> '
+
+
+;ホスト名解決
+sendln 'vserver services name-service dns show'
+wait '::> '
+sendln 'vserver services name-service nis-domain show'
+wait '::> '
+sendln 'vserver services name-service ldap show'
+wait '::> '
+sendln 'vserver services name-service ns-switch show'
+wait '::> '
+
+; セキュリティ設定
+sendln 'security login show -fields user-or-group-name,authentication-method,role,application,is-account-locked'
+wait '::> '
+sendln 'security login role show admin'
+wait '::> '
+sendln 'security login role show autosupport'
+wait '::> '
+sendln 'security login role show readonly'
+wait '::> '
+sendln 'security login role show vsadmin'
+wait '::> '
+sendln 'security login role config show'
+wait '::> '
+
+;Snapshotポリシー設定
+sendln 'volume snapshot policy show'
+wait '::> '
+sendln 'volume snapshot policy show -fields policy,vserver,schedules,counts,snapmirror-labels'
+wait '::> '
+
+;スケジュール設定
+sendln 'job schedule show'
+wait '::> '
+
+;4 SVM設定
+; SVM基本設定
+sendln 'vserver show '
+wait '::> '
+sendln 'vserver show -type data'
+wait '::> '
+sendln 'vserver show -type data -ins'
+wait '::> '
+
+; プロトコル設定
+sendln 'vserver show-protocols'
+wait '::> '
+sendln 'vserver nfs show'
+wait '::> '
+sendln 'vserver cifs show'
+wait '::> '
+sendln 'vserver cifs show -ins'
+wait '::> '
+
+; ボリューム設定
+sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy'
+wait '::> '
+sendln 'volume show -ins'
+wait '::> '
+sendln 'volume efficiency show -ins'
+wait '::> '
+sendln 'volume efficiency policy show '
+wait '::> '
+
+; FlexGroup向けボリューム設定
+sendln 'volume show -volume-style-extended flexgroup,flexgroup-constituent'
+wait '::> '
+
+
+; export policy設定
+sendln 'vserver export-policy show'
+wait '::> '
+sendln 'vserver export-policy rule show'
+wait '::> '
+sendln 'vserver export-policy rule show -fields vserver,policyname,ruleindex,protocol,clientmatch,superuser,rwrule,rorule,anon'
+wait '::> '
+
+; qtree設定
+sendln 'volume qtree show'
+wait '::> '
+sendln 'volume qtree show -ins'
+wait '::> '
+
+; quota設定
+sendln 'volume quota show'
+wait '::> '
+sendln 'volume quota show -ins'
+wait '::> '
+sendln 'volume quota policy show'
+wait '::> '
+sendln 'volume quota policy rule show'
+wait '::> '
+sendln 'volume quota policy show -ins'
+wait '::> '
+sendln 'volume quota policy rule show -ins'
+wait '::> '
+
+; CIFS設定
+sendln 'vserver cifs show'
+wait '::> '
+sendln 'vserver cifs share show'
+wait '::> '
+sendln 'vserver cifs share access-control show'
+wait '::> '
+
+sendln ''
+wait '::> '
+sendln ''
+wait '::> '
+
+
+
