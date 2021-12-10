@@ -27,11 +27,13 @@ sendln 'storage disk show -fields model,firmware-revision,serial-number'
 wait '::> '
 
 ;ディスクパーテーション情報
-sendln 'storage disk show -fields disk,container-type,type,usable-size '
+sendln 'storage disk show -fields disk,container-type,type,usable-size,owner '
 wait '::> '
 
 ;アグリゲート情報
 sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype '
+wait '::> '
+sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype,owner-name '
 wait '::> '
 
 ;2 基本設定系
@@ -47,7 +49,7 @@ wait '::> '
 ;その他
 sendln 'system date show -ins'
 wait '::> '
-sendln 'cluster time-service ntp server show'
+sendln 'cluster time-service ntp server show -ins'
 wait '::> '
 sendln 'system timeout show'
 wait '::> '
@@ -55,6 +57,8 @@ wait '::> '
 
 ;3 クラスタ設定
 ;クラスタ設定
+sendln 'cluster identity show'
+wait '::> '
 sendln 'cluster show'
 wait '::> '
 
@@ -73,6 +77,8 @@ wait '::> '
 sendln 'network port broadcast-domain show'
 wait '::> '
 sendln 'network ipspace show'
+wait '::> '
+sendln 'network ipspace show -fields broadcast-domains,vservers'
 wait '::> '
 
 
@@ -124,13 +130,28 @@ sendln 'vserver show-protocols'
 wait '::> '
 sendln 'vserver nfs show'
 wait '::> '
+sendln 'vserver nfs show -ins'
+wait '::> '
 sendln 'vserver cifs show'
 wait '::> '
 sendln 'vserver cifs show -ins'
 wait '::> '
+sendln 'vserver iscsi show'
+wait '::> '
+sendln 'vserver iscsi show -ins'
+wait '::> '
+sendln 'vserver fcp show'
+wait '::> '
+sendln 'vserver fcp show -ins'
+wait '::> '
+sendln 'vserver ndmp show'
+wait '::> '
+sendln 'vserver ndmp show -ins'
+wait '::> '
+
 
 ; ボリューム設定
-sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy'
+sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encryption-state,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space'
 wait '::> '
 sendln 'volume show -ins'
 wait '::> '
@@ -184,6 +205,3 @@ sendln ''
 wait '::> '
 sendln ''
 wait '::> '
-
-
-
