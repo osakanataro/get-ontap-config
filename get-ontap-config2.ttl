@@ -4,6 +4,22 @@ wait '::> '
 sendln 'date'
 wait '::> '
 
+; マクロ内で使用するためにNetAppノード名を変数に入れる
+; ノード数は2固定で作成(可変でうまく作れなかったため)
+setsync 1
+strdim nodenames 20
+I=0
+endflag=1
+sendln 'system node show -fields node'
+recvln ; コマンド入力文
+recvln ; ヘッダ部分
+recvln ; --- 部分
+recvln
+nodenames[0] = inputstr
+recvln
+nodenames[1] = inputstr
+wait '::>'
+
 
 ;1 基本設定系
 ;コントローラ ハードウェア情報
@@ -30,10 +46,19 @@ wait '::> '
 sendln 'storage disk show -fields disk,container-type,type,usable-size,owner '
 wait '::> '
 
+sendln 'storage disk show -fields disk,container-type,type,usable-size,owner -node ' nodenames[0]
+wait '::> '
+sendln 'storage disk show -fields disk,container-type,type,usable-size,owner -node ' nodenames[1]
+wait '::> '
+
+
 ;アグリゲート情報
 sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype '
 wait '::> '
-sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype,owner-name '
+
+sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype -node ' nodenames[0]
+wait '::> '
+sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype -node ' nodenames[1]
 wait '::> '
 
 ;2 基本設定系
@@ -205,3 +230,6 @@ sendln ''
 wait '::> '
 sendln ''
 wait '::> '
+
+
+
