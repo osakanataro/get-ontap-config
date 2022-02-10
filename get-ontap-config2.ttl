@@ -79,6 +79,21 @@ wait '::> '
 sendln 'autosupport show -ins'
 wait '::> '
 
+sendln 'event notification show'
+wait '::> '
+sendln 'event notification show -ins'
+wait '::> '
+sendln 'event notification destination show'
+wait '::> '
+sendln 'event notification destination show -ins'
+wait '::> '
+sendln 'cluster log-forwarding show -ins'
+wait '::> '
+sendln 'system snmp show'
+wait '::> '
+
+
+
 ;その他
 sendln 'system date show -ins'
 wait '::> '
