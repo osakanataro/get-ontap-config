@@ -36,6 +36,9 @@ sendln 'system service-processor show -fields type,fw-version,dev-rev'
 wait '::> '
 sendln 'system controller config show -device  "Controller Module"'
 wait '::> '
+; OSバージョン
+sendln 'version -node *'
+wait '::> '
 
 ;サービスプロセッサ情報
 sendln 'system service-processor network show'
@@ -59,6 +62,10 @@ while I > J
 endwhile
 
 ;アグリゲート情報
+sendln 'df -A -h'
+wait '::> '
+sendln 'storage aggregate show'
+wait '::> '
 sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype '
 wait '::> '
 
@@ -79,6 +86,7 @@ wait '::> '
 sendln 'autosupport show -ins'
 wait '::> '
 
+; 注: event notificationはONTAP 8.3などには無いのでエラーとなる
 sendln 'event notification show'
 wait '::> '
 sendln 'event notification show -ins'
@@ -122,6 +130,8 @@ wait '::> '
 
 
 ;ネットワーク設定
+sendln 'network interface show'
+wait '::> '
 sendln 'network interface show -fields lif,vserver,home-node,home-port,failover-group,address,netmask-length,data-protocol,role'
 wait '::> '
 sendln 'network port show -fields node,port,broadcast-domain,ipspace,type'
@@ -134,7 +144,8 @@ sendln 'network ipspace show'
 wait '::> '
 sendln 'network ipspace show -fields broadcast-domains,vservers'
 wait '::> '
-
+sendln 'network route show'
+wait '::> '
 
 ;ホスト名解決
 sendln 'vserver services name-service dns show'
@@ -205,6 +216,10 @@ wait '::> '
 
 
 ; ボリューム設定
+sendln 'df -h'
+wait '::> '
+sendln 'volume show '
+wait '::> '
 sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encryption-state,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space'
 wait '::> '
 sendln 'volume show -ins'
@@ -245,6 +260,8 @@ wait '::> '
 sendln 'volume quota policy show -ins'
 wait '::> '
 sendln 'volume quota policy rule show -ins'
+wait '::> '
+sendln 'volume quota report'
 wait '::> '
 
 ; CIFS設定
