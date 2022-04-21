@@ -272,6 +272,13 @@ wait '::> '
 sendln 'vserver cifs share access-control show'
 wait '::> '
 
+; 監査設定(audit)
+sendln 'vserver audit show'
+wait '::> '
+sendln 'vserver audit show -ins'
+wait '::> '
+
+
 sendln ''
 wait '::> '
 sendln ''
