@@ -61,6 +61,11 @@ while I > J
 	J=J+1
 endwhile
 
+; スペア情報
+sendln 'storage aggregate show-spare-disks'
+wait '::> '
+
+
 ;アグリゲート情報
 sendln 'df -A -h'
 wait '::> '
@@ -150,6 +155,8 @@ wait '::> '
 ;ホスト名解決
 sendln 'vserver services name-service dns show'
 wait '::> '
+sendln 'vserver services name-service dns dynamic-update show'
+wait '::> '
 sendln 'vserver services name-service nis-domain show'
 wait '::> '
 sendln 'vserver services name-service ldap show'
@@ -197,10 +204,16 @@ sendln 'vserver nfs show'
 wait '::> '
 sendln 'vserver nfs show -ins'
 wait '::> '
+
 sendln 'vserver cifs show'
 wait '::> '
 sendln 'vserver cifs show -ins'
 wait '::> '
+sendln 'vserver cifs security show'
+wait '::> '
+sendln 'vserver cifs options show -ins'
+wait '::> '
+
 sendln 'vserver iscsi show'
 wait '::> '
 sendln 'vserver iscsi show -ins'
@@ -217,6 +230,8 @@ wait '::> '
 
 ; ボリューム設定
 sendln 'df -h'
+wait '::> '
+sendln 'df -i'
 wait '::> '
 sendln 'volume show '
 wait '::> '
@@ -286,3 +301,28 @@ wait '::> '
 
 
 
+;; advancedモードで確認する設定
+sendln 'rows 0'
+wait '::> '
+sendln 'set adv'
+wait ': '
+sendln 'y'
+wait '::*> '
+
+
+; CIFSのsmb1対応など確認
+sendln 'vserver cifs options show -ins'
+wait '::*> '
+
+; NTPサーバとの通信状況確認
+sendln 'cluster time-service ntp status show'
+wait '::*> '
+sendln 'cluster time-service ntp status show -ins'
+wait '::*> '
+
+sendln ''
+wait '::*> '
+
+
+sendln 'set adm'
+wait '::> '
