@@ -71,6 +71,8 @@ sendln 'df -A -h'
 wait '::> '
 sendln 'storage aggregate show'
 wait '::> '
+sendln 'storage aggregate show-status'
+wait '::> '
 sendln 'storage aggregate show -fields size,diskcount,raidgroups,raidtype '
 wait '::> '
 
@@ -104,6 +106,25 @@ sendln 'storage pool show-disks'
 wait '::> '
 sendln 'storage pool show-disks -fields disk,node-list,total-size,usable-size,disk-type'
 wait '::> '
+
+; ディスクの暗号化
+sendln 'storage encryption disk show'
+wait '::> '
+sendln 'storage encryption disk show-status'
+wait '::> '
+sendln 'security key-manager show'
+wait '::> '
+sendln 'security key-manager show-key-store'
+wait '::> '
+sendln 'security key-manager external show'
+wait '::> '
+sendln 'security key-manager external show-status'
+wait '::> '
+
+; ディスク追加時に自動割り当てをするか
+sendln 'storage disk option show'
+wait '::> '
+
 
 ;2 基本設定系
 ;ログイン情報
@@ -277,6 +298,8 @@ sendln 'volume efficiency show -ins'
 wait '::> '
 sendln 'volume efficiency policy show '
 wait '::> '
+sendln 'volume language '
+wait '::> '
 
 ; FlexGroup向けボリューム設定
 sendln 'volume show -volume-style-extended flexgroup,flexgroup-constituent'
@@ -320,11 +343,23 @@ sendln 'vserver cifs share show'
 wait '::> '
 sendln 'vserver cifs share access-control show'
 wait '::> '
+sendln 'vserver cifs share properties show'
+wait '::> '
 
 ; 監査設定(audit)
 sendln 'vserver audit show'
 wait '::> '
 sendln 'vserver audit show -ins'
+wait '::> '
+
+;Snapmirror設定
+sendln 'snapmirror show'
+wait '::> '
+sendln 'snapmirror show -ins'
+wait '::> '
+sendln 'snapmirror policy show'
+wait '::> '
+sendln 'snapmirror list-destinations'
 wait '::> '
 
 
@@ -354,9 +389,19 @@ wait '::*> '
 sendln 'cluster time-service ntp status show -ins'
 wait '::*> '
 
-sendln ''
+;; diagモードで確認する設定
+sendln 'set diag'
+wait ': '
+sendln 'y'
 wait '::*> '
 
+; ADPパーテーション確認
+; 注: ADPパーテーションがないディスクは表示されない
+sendln 'storage disk partition show'
+wait '::*> '
+
+sendln ''
+wait '::*> '
 
 sendln 'set adm'
 wait '::> '
