@@ -81,6 +81,30 @@ while I > J
 	J=J+1
 endwhile
 
+; ディスクのShelf
+sendln 'storage shelf show'
+wait '::> '
+sendln 'storage shelf show -ins'
+wait '::> '
+
+; Flash pool情報
+sendln 'storage pool show'
+wait '::> '
+sendln 'storage pool show -ins'
+wait '::> '
+sendln 'storage pool show-available-capacity'
+wait '::> '
+sendln 'storage pool show-available-capacity -ins'
+wait '::> '
+sendln 'storage pool show-aggregate'
+wait '::> '
+sendln 'storage pool show-aggregate -ins'
+wait '::> '
+sendln 'storage pool show-disks'
+wait '::> '
+sendln 'storage pool show-disks -fields disk,node-list,total-size,usable-size,disk-type'
+wait '::> '
+
 ;2 基本設定系
 ;ログイン情報
 sendln 'security login show'
