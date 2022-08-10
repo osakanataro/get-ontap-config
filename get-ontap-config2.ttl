@@ -187,6 +187,16 @@ sendln 'vserver services name-service ldap show'
 wait '::> '
 sendln 'vserver services name-service ns-switch show'
 wait '::> '
+sendln 'vserver services name-service dns hosts show'
+wait '::> '
+
+; ユーザ名マッピング
+sendln 'vserver services name-service unix-user show'
+wait '::> '
+sendln 'vserver name-mapping show'
+wait '::> '
+sendln 'vserver name-mapping show -ins'
+wait '::> '
 
 ; セキュリティ設定
 sendln 'security login show -fields user-or-group-name,authentication-method,role,application,is-account-locked'
