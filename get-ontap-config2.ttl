@@ -56,7 +56,7 @@ wait '::> '
 
 J=0
 while I > J
-	sendln 'storage disk show -fields disk,container-type,type,usable-size,owner -node ' nodenames[J]
+	sendln 'storage disk show -fields disk,container-type,type,usable-size,owner -owner ' nodenames[J]
 	wait '::> '
 	J=J+1
 endwhile
@@ -195,6 +195,8 @@ wait '::> '
 sendln 'network ipspace show -fields broadcast-domains,vservers'
 wait '::> '
 sendln 'network route show'
+wait '::> '
+sendln 'network port vlan show'
 wait '::> '
 
 ;ホスト名解決
