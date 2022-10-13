@@ -198,6 +198,9 @@ sendln 'network route show'
 wait '::> '
 sendln 'network port vlan show'
 wait '::> '
+; failover-group
+sendln 'network interface failover-groups show'
+wait '::> '
 
 ;ホスト名解決
 sendln 'vserver services name-service dns show'
