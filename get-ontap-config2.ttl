@@ -1,5 +1,5 @@
 
-sendln 'rows 0'
+sendln 'set -rows 0 -privilege admin -showseparator " " -units auto -showallfields false -confirmations on'
 wait '::> '
 sendln 'date'
 wait '::> '
@@ -408,5 +408,5 @@ wait '::*> '
 sendln ''
 wait '::*> '
 
-sendln 'set adm'
+sendln 'set -rows 0 -privilege admin -showseparator " " -units auto -showallfields false -confirmations on'
 wait '::> '
