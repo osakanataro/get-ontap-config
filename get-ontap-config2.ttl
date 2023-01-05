@@ -130,7 +130,10 @@ wait '::> '
 ;ログイン情報
 sendln 'security login show'
 wait '::> '
-
+sendln 'security login publickey show'
+wait '::> '
+sendln 'security login role show'
+wait '::> '
 
 ;通知設定
 sendln 'autosupport show -ins'
@@ -201,6 +204,11 @@ wait '::> '
 ; failover-group
 sendln 'network interface failover-groups show'
 wait '::> '
+sendln 'network interface show -fields failover-policy,failover-group,auto-revert'
+wait '::> '
+sendln 'network interface show -failover'
+wait '::> '
+
 
 ;ホスト名解決
 sendln 'vserver services name-service dns show'
@@ -246,6 +254,12 @@ wait '::> '
 
 ;スケジュール設定
 sendln 'job schedule show'
+wait '::> '
+sendln 'job schedule cron show'
+wait '::> '
+sendln 'job schedule interval show'
+wait '::> '
+sendln 'job schedule show-jobs'
 wait '::> '
 
 ;4 SVM設定
@@ -358,6 +372,15 @@ sendln 'vserver audit show -ins'
 wait '::> '
 
 ;Snapmirror設定
+sendln 'cluster peer show'
+wait '::> '
+sendln 'vserver peer show'
+wait '::> '
+sendln 'cluster peer show -ins'
+wait '::> '
+sendln vserver peer show -ins'
+wait '::> '
+
 sendln 'snapmirror show'
 wait '::> '
 sendln 'snapmirror show -ins'
@@ -367,6 +390,12 @@ wait '::> '
 sendln 'snapmirror list-destinations'
 wait '::> '
 
+
+; vscan設定
+sendln 'vserver vscan scanner-pool show'
+wait '::> '
+sendln 'vserver vscan on-access-policy show '
+wait '::> '
 
 sendln ''
 wait '::> '
@@ -407,6 +436,24 @@ wait '::*> '
 
 sendln ''
 wait '::*> '
+
+; スクリプト処理しやすい形式での設定取得
+sendln 'set -showseparator "!" -rows 0 -units GB -showallfields true'
+wait '::> '
+; CIFS共有設定
+sendln 'vserver cifs share show '
+wait '::> '
+; volume一覧
+sendln 'volume show '
+wait '::> '
+; quota/qtree設定
+sendln 'volume qtree show '
+wait '::> '
+sendln 'volume quota policy rule show '
+wait '::> '
+sendln 'volume quota report '
+wait '::> '
+
 
 sendln 'set -rows 0 -privilege admin -showseparator " " -units auto -showallfields false -confirmations on'
 wait '::> '
