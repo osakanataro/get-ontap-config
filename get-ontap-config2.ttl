@@ -374,11 +374,13 @@ wait '::> '
 ;Snapmirror設定
 sendln 'cluster peer show'
 wait '::> '
+
 sendln 'vserver peer show'
 wait '::> '
+
 sendln 'cluster peer show -ins'
 wait '::> '
-sendln vserver peer show -ins'
+sendln 'vserver peer show -ins'
 wait '::> '
 
 sendln 'snapmirror show'
