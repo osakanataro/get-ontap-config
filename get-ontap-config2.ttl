@@ -1,3 +1,4 @@
+; ONTAP 9.1～9.10.1 を想定した設定取得TeraTermマクロ
 
 sendln 'set -rows 0 -privilege admin -showseparator " " -units auto -showallfields false -confirmations on'
 wait '::> '
@@ -8,22 +9,26 @@ wait '::> '
 setsync 1
 strdim nodenames 20
 I=0
-sendln 'system node show -fields node'
+sendln 'system node show -fields node;echo ZZZeofZZZ'
 recvln ; コマンド入力文
 recvln ; ヘッダ部分
 recvln ; --- 部分
 endflag=1
 while endflag=1
 	recvln
-	strscan inputstr 'displayed.'
+	strscan inputstr 'ZZZeofZZZ'
 	if result>0 then
 		endflag=0
 	else
-		nodenames[I] = inputstr
-		I=I+1
+		strscan inputstr 'displayed.'
+		if result>0 then
+			endflag=0
+		else
+			nodenames[I] = inputstr
+			I=I+1
+		endif
 	endif
 endwhile
-wait '::> '
 setsync 0
 
 ;1 基本設定系
@@ -440,7 +445,7 @@ sendln ''
 wait '::*> '
 
 ; スクリプト処理しやすい形式での設定取得
-sendln 'set -showseparator "!" -rows 0 -units GB -showallfields true'
+sendln 'set -rows 0 -privilege admin -showseparator "!" -units GB -showallfields true'
 wait '::> '
 ; CIFS共有設定
 sendln 'vserver cifs share show '
