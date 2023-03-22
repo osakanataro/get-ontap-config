@@ -9,7 +9,7 @@ wait '::> '
 setsync 1
 strdim nodenames 20
 I=0
-sendln 'system node show -fields node;echo ZZZeofZZZ'
+sendln 'system node show -fields node; echo ZZZeofZZZ'
 recvln ; コマンド入力文
 recvln ; ヘッダ部分
 recvln ; --- 部分
@@ -179,13 +179,14 @@ wait '::> '
 ;ライセンス情報
 sendln 'system license show'
 wait '::> '
-sendln 'system license show-status'
+sendln 'system license show-status' ; ONTAP 9.1には存在しない
 wait '::> '
 sendln 'system license capacity show'
 wait '::> '
-sendln 'system license show-serial-numbers'
+sendln 'system license show-serial-numbers' ; ONTAP 9.1には存在しない
 wait '::> '
-
+sendln 'system license status show'
+wait '::> '
 
 ;ネットワーク設定
 sendln 'network interface show'
@@ -314,7 +315,9 @@ sendln 'df -i'
 wait '::> '
 sendln 'volume show '
 wait '::> '
-sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encryption-state,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space'
+sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encryption-state,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space' ; ONTAP 9.1にはencryption-stateが存在しない
+wait '::> '
+sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encrypt,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space' ; ONTAP 9.1用
 wait '::> '
 sendln 'volume show -ins'
 wait '::> '
@@ -440,6 +443,16 @@ wait '::*> '
 ; 注: ADPパーテーションがないディスクは表示されない
 sendln 'storage disk partition show'
 wait '::*> '
+
+; NTPサーバとの通信状況確認 ONTAP 9.1などの古いバージョン用
+sendln ''
+wait '::*> '
+J=0
+while I > J
+	sendln 'systemshell -command "sudo ntpq -p" -node ' nodenames[J]
+	wait '::*> '
+	J=J+1
+endwhile
 
 sendln ''
 wait '::*> '
