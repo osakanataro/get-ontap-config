@@ -458,7 +458,7 @@ sendln ''
 wait '::*> '
 
 ; スクリプト処理しやすい形式での設定取得
-sendln 'set -rows 0 -privilege admin -showseparator "!" -units GB -showallfields true'
+sendln 'set -rows 0 -privilege admin -showseparator '#09' -units GB -showallfields true'
 wait '::> '
 ; CIFS共有設定
 sendln 'vserver cifs share show '
