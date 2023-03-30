@@ -400,6 +400,10 @@ sendln 'cluster peer show -ins'
 wait '::> '
 sendln 'vserver peer show -ins'
 wait '::> '
+sendln 'cluster peer health show -ins'
+wait '::> '
+sendln 'cluster peer ping'
+wait '::> '
 
 sendln 'snapmirror show'
 wait '::> '
@@ -417,17 +421,22 @@ sendln 'snapmirror show -fields schedule ,policy ,throttle'
 wait '::> '
 
 ; vscan設定
+sendln 'vserver vscan show'
+wait '::> '
 sendln 'vserver vscan scanner-pool show'
 wait '::> '
 sendln 'vserver vscan on-access-policy show '
 wait '::> '
-
-sendln ''
+sendln 'vserver vscan scanner-pool show -ins'
 wait '::> '
-sendln ''
+sendln 'vserver vscan on-access-policy show -ins'
 wait '::> '
-
-
+sendln 'vserver vscan connection-status show-all'
+wait '::> '
+sendln 'vserver vscan on-demand-task show'
+wait '::> '
+sendln 'vserver vscan on-demand-task show -ins'
+wait '::> '
 
 ;; advancedモードで確認する設定
 sendln 'rows 0'
