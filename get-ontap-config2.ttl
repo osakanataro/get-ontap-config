@@ -24,8 +24,11 @@ while endflag=1
 		if result>0 then
 			endflag=0
 		else
-			nodenames[I] = inputstr
-			I=I+1
+			strlen inputstr
+			if result>0 then
+				nodenames[I] = inputstr
+				I=I+1
+			endif
 		endif
 	endif
 endwhile
@@ -321,11 +324,16 @@ sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-styl
 wait '::> '
 sendln 'volume show -ins'
 wait '::> '
+sendln 'volume language '
+wait '::> '
+; ボリュームの重複排除と圧縮
 sendln 'volume efficiency show -ins'
 wait '::> '
 sendln 'volume efficiency policy show '
 wait '::> '
-sendln 'volume language '
+sendln 'volume efficiency show -field type,state,inline-dedupe,compression,inline-compression,policy,schedule,data-compaction'
+wait '::> '
+sendln 'volume efficiency show -field cross-volume-inline-dedupe,cross-volume-background-dedupe' ; ONTAP 9.7以降?
 wait '::> '
 
 ; FlexGroup向けボリューム設定
@@ -382,6 +390,8 @@ wait '::> '
 ;Snapmirror設定
 sendln 'cluster peer show'
 wait '::> '
+sendln 'cluster peer show -fields cluster,peer-addrs'
+wait '::> '
 
 sendln 'vserver peer show'
 wait '::> '
@@ -400,6 +410,11 @@ wait '::> '
 sendln 'snapmirror list-destinations'
 wait '::> '
 
+; snapmirrorの帯域制御関連確認
+sendln 'options replication.throttle*'
+wait '::> '
+sendln 'snapmirror show -fields schedule ,policy ,throttle'
+wait '::> '
 
 ; vscan設定
 sendln 'vserver vscan scanner-pool show'
