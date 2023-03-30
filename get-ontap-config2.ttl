@@ -148,6 +148,9 @@ sendln 'autosupport show -ins'
 wait '::> '
 
 ; 注: event notificationはONTAP 8.3などには無いのでエラーとなる
+dispstr "*** ↓ONTAP 8.xではevent notification関連はエラーとなる"
+sendln ''
+wait '::> '
 sendln 'event notification show'
 wait '::> '
 sendln 'event notification show -ins'
@@ -182,9 +185,15 @@ wait '::> '
 ;ライセンス情報
 sendln 'system license show'
 wait '::> '
+dispstr "*** ↓古いONTAPではエラーとなる"
+sendln ''
+wait '::> '
 sendln 'system license show-status' ; ONTAP 9.1には存在しない
 wait '::> '
 sendln 'system license capacity show'
+wait '::> '
+dispstr "*** ↓古いONTAPではエラーとなる"
+sendln ''
 wait '::> '
 sendln 'system license show-serial-numbers' ; ONTAP 9.1には存在しない
 wait '::> '
@@ -318,6 +327,9 @@ sendln 'df -i'
 wait '::> '
 sendln 'volume show '
 wait '::> '
+dispstr "*** ↓古いONTAPではエラーとなる"
+sendln ''
+wait '::> '
 sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encryption-state,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space' ; ONTAP 9.1にはencryption-stateが存在しない
 wait '::> '
 sendln 'volume show -fields volume,type,vserver,size,is-sis-volume,security-style,snapshot-policy,encrypt,junction-path,snapshot-policy,policy,aggr-list,percent-snapshot-space' ; ONTAP 9.1用
@@ -332,6 +344,9 @@ wait '::> '
 sendln 'volume efficiency policy show '
 wait '::> '
 sendln 'volume efficiency show -field type,state,inline-dedupe,compression,inline-compression,policy,schedule,data-compaction'
+wait '::> '
+dispstr "*** ↓古いONTAPではエラーとなる"
+sendln ''
 wait '::> '
 sendln 'volume efficiency show -field cross-volume-inline-dedupe,cross-volume-background-dedupe' ; ONTAP 9.7以降?
 wait '::> '
@@ -452,7 +467,13 @@ sendln 'vserver cifs options show -ins'
 wait '::*> '
 
 ; NTPサーバとの通信状況確認
+dispstr "*** ↓古いONTAPではエラーとなる"
+sendln ''
+wait '::*> '
 sendln 'cluster time-service ntp status show'
+wait '::*> '
+dispstr "*** ↓古いONTAPではエラーとなる"
+sendln ''
 wait '::*> '
 sendln 'cluster time-service ntp status show -ins'
 wait '::*> '
@@ -465,6 +486,9 @@ wait '::*> '
 
 ; ADPパーテーション確認
 ; 注: ADPパーテーションがないディスクは表示されない
+dispstr '*** ↓はADPパーテーションを利用している場合に表示される'
+sendln ''
+wait '::*> '
 sendln 'storage disk partition show'
 wait '::*> '
 
